@@ -1,0 +1,6 @@
+__pycache__
+*.out
+cc.es.300.bin.gz.part
+*.bk.*
+hate_speech_test.py
+hate_speech_env
