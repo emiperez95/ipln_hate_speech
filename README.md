@@ -36,7 +36,7 @@ Luego se realiza la tokenizacion de la "oracion" resultante. Dado que se quitaro
 Una vez tokenizadas las oraciones, se opto por eliminar las palabras de dos o menos letras y las stopwords del lenguaje. Estas dos operaciones se realizan para eliminar las palabras que aparecen mucho en las oraciones y que no aportan a la decision de discurso de odio.
 Finalmente se aplico stemming y lemmatization. En el caso de stemming se encontraron dos librerias diferentes, Porter stemming que se basa en un corpus en ingles y Snowball stemming que es especifica para el español. Sobre lematization se implemento una sola libreria.
 
-###Metodos de aprendizaje automatico utilizados
+### Metodos de aprendizaje automatico utilizados
 Para el entrenamiento de los clasificadores, se consideraron dos grandes categorias, la primera con clasificadores que utilicen embeddings y la segunda con clasificadores que utilicen los valores obtenidos del metodo TF-IDF.
 
 #### Metodos con TF-IDF
