@@ -23,7 +23,7 @@ python es_odio.py
 ```
 
 y para realizar la predicción de mas tweets, se pueden incluir archivos como argumentos al programa.
-Si se deseara predecir los textos en los archivos ~/textos1.csv y ../../textos2.csv, 
+Si se deseara predecir los textos en los archivos ~/textos1.csv y ../../textos2.csv,
 
 ```bash
 python es_odio.py ~/textos1.csv ../../textos2.csv
@@ -35,6 +35,13 @@ En este caso se generarian los archivos ~/textos1.out y ../../textos2.out
 ## Trabajo realizado
 
 ### Análisis estadístico
+
+Comenzamos el analisis viendo la proporcion de tweets con lenguaje de odio contra los que no lo tienen, y estas clases estan balanceadas con aproximadamente 52% contra 48%. Esto nos dice que no deberia ser necesario utilizar metodos de sampling para el aprendizaje.
+
+Armando un ranking de las palabras que mas aparecen en cada clase, vemos que entre las 100 palabras mas comunes de cada una, solo 30 son diferentes. Esto da una idea que los tweets no son blanco y negro, dado que en muchos casos las palabras son las mismas (las cuales son en su mayoria de caracter ofensivo o segun el contexto xenofobicas). Cabe notar que estos datos estadisticos son tomados luego del preprocesamiento, por lo que las palabras removidas en esa seccion no se encuentran.
+
+Finalmente ploteando las diferencias en los largos de las oraciones entre clases, tampoco vemos diferencias suficientes como para justificar usar el largo de las oraciones.
+![Largos de oracion post procesamiento](plot.png "Largos de oracion post procesamiento")
 
 ### Preprocesamiento
 
@@ -76,7 +83,8 @@ El **modelo SVM** fue el implementado por sklearn y debido a la rapidez del entr
 
 Una vez decidido el modelo, se utilizo la funcion de RandomizedSearchCV, que permite hacer una busqueda aleatoria en un espacio de hyperparametros usando cross validation. Los parametros utilizados para esta busqueda fueron los kernels "rbf", "poly" y "sigmoid", c (regularizacion) de 1e^-2 a 1e^10 (saltos de factor 10) y gamma de 1e^-9 a 1e^3 (saltos de factor 10). Esto genera una grilla de 507 elementos de los cuales buscamos 100 (de forma aleatoria). [Inspiracion](https://scikit-learn.org/stable/auto_examples/svm/plot_rbf_parameters.html).
 
+## Posibles mejoras
 
+Para mejorar el resultado del programa, se podrian haber realizado dos tareas claves, que permiten utilizar LSTM en el tiempo acotado. La primera consiste en utilizar algun metodo de transfer learning o preentrenamiento para evitar requerir una gran cantidad de epochs y poder hacer un entrenamiento mas rapido. La segunda clave seria utilizar pytorch, que permite trabajar a un nivel mas bajo que keras y de esta forma generar algunas optimizaciones que podrian haber ahorrado tiempo.
 
-Mas dataos: transfer learning o preentrenamiento
-Pytorch para control mas fino
+Respecto a la cantidad de datos, se podrian haber obtenido mas tweets de tweeter y utilizar bootstrap o algun modelo existente preentrenado para conseguir mas datos.
