@@ -17,6 +17,9 @@ def load_and_join_datasets(path): #ipln_hate_speech/data/
   t_data["origin"] = 0
   return pd.concat([data, t_data])
 
+def simple_data_load_values(path):
+  return pd.read_csv(path+"/val.csv", sep='\t', header=None, names=['text', 'value'],dtype={'value':bool}, engine='c')
+
 def simple_data_load(path):
   return pd.read_csv(path, sep='\t', header=None, names=['text'], engine='c')
 
@@ -29,6 +32,12 @@ def split_datasets(data):
     x_tr.drop(['value'], axis=1, inplace=True)
     x_te.drop(['value'], axis=1, inplace=True)
     return x_tr, y_tr, x_te, y_te
+
+def split_datasets_simple(data):
+  y = data['value'].to_numpy()
+  x = data.drop(['value'], axis=1)
+  return x, y
+
 
 def data_pipeline(text, pipe):
     for proc in pipe:
@@ -82,6 +91,47 @@ def remove_small_words(text):
 ''' Remove spanish stopwords '''
 def remove_stopwords(text):
     return [word for word in text if word not in nltk.corpus.stopwords.words('spanish')]
+
+''' Remove most used words shared '''
+def remove_most_used_shared(text):
+  word_list = ['bien',
+ 'puede',
+ 'perra',
+ 'hijo',
+ 'facho',
+ 'siempre',
+ 'decir',
+ 'ladron',
+ 'madre',
+ 'mierda',
+ 'comunista',
+ 'puto',
+ 'gente',
+ 'feminazi',
+ 'ahora',
+ 'fascista',
+ 'chavista',
+ 'tener',
+ 'maldito',
+ 'mejor',
+ 'dice',
+ 'marica',
+ 'asqueroso',
+ 'hace',
+ 'puta',
+ 'negro',
+ 'feminista',
+ 'chino',
+ 'criminal',
+ 'matar',
+ 'mujer',
+ 'torta',
+ 'idiota',
+ 'solo',
+ 'ignorante']
+
+  return [word for word in text if word not in word_list]
+
 
 
 # """###Stemming y lematizacion"""

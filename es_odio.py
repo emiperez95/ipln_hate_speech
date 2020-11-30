@@ -27,7 +27,7 @@ def svm_mean_run(Xtr, Xte, Ytr, Yte,  hyperparams):
     y_pred = svm_clf.predict(X_test)
 
     # Append to statistics
-    print("Restultados obtenidos del entrenamiento:")
+    print("Restultados obtenidos de datos de test:")
     print_stat(Yte, y_pred)
 
     return svm_clf
@@ -40,7 +40,7 @@ def print_stat(x, y):
 
 
 if __name__ == "__main__":
-    data = utils.load_and_join_datasets("data")
+    data = utils.load_and_join_datasets(sys.argv[1])
     procesing_pipe = [
         utils.remove_urls,
         utils.new_line_to_space,
@@ -53,6 +53,7 @@ if __name__ == "__main__":
 
         utils.remove_small_words,
         utils.remove_stopwords,
+        # utils.remove_most_used_shared,
 
         # utils.stemming_Porter,
         # utils.stemming_Snowball,
@@ -75,8 +76,19 @@ if __name__ == "__main__":
     print("Entrenando SVM con parametros {}".format(hyperparams))
     svm = svm_mean_run(X_tr, X_te, y_train, y_test,  hyperparams)
 
-    if len(sys.argv) > 1:
-        for arg in sys.argv[1:]:
+    # == Eval ==
+    val_data = utils.simple_data_load_values(sys.argv[1])
+    utils.data_apply(val_data, procesing_pipe, False)
+    X_val, y_val = utils.split_datasets_simple(val_data)
+    X_val = utils.intersect_embedding_data(embedding, X_val)
+    X_val = data_vector_to_mean(X_val)
+    y_pred_val = svm.predict(X_val)
+    print("Restultados obtenidos de datos de la evaluacion:")
+    print_stat(y_val, y_pred_val)
+
+
+    if len(sys.argv) > 2:
+        for arg in sys.argv[2:]:
             print("\nGenerando predicciones de {}".format(arg))
             full_path = os.path.abspath(arg)
             path, fl_name = os.path.split(full_path)

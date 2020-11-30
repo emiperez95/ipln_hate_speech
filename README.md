@@ -34,6 +34,9 @@ En este caso se generarian los archivos ~/textos1.out y ../../textos2.out
 
 ## Trabajo realizado
 
+El analisis y entrenado de los modelos se realizo en su completitud en google collabs, dado que provee de un entorno donde se puede ejecutar codigo python utilizando GPUs.
+En caso de error, el repositorio con lo entregado se encuentra de forma publica en [este enlace](https://github.com/emiperez95/ipln_hate_speech).
+
 ### Análisis estadístico
 
 Comenzamos el analisis viendo la proporcion de tweets con lenguaje de odio contra los que no lo tienen, y estas clases estan balanceadas con aproximadamente 52% contra 48%. Esto nos dice que no deberia ser necesario utilizar metodos de sampling para el aprendizaje.
@@ -51,9 +54,9 @@ Para el **parsing de texto**, se crearon funciones que remueven urls, convierten
 
 Luego se realiza la **tokenizacion** de la "oracion" resultante. Dado que se quitaron todos los caracteres que podrian haber molestado, se decidio utilizar una tokenizacion simple separando segun espacios. A pesar de esto, se intento usar el tokenizador de ntlk, pero los resultados no fueron tan buenos.
 
-Una vez tokenizadas las oraciones, se opto por **eliminar las palabras** de dos o menos letras y las stopwords del lenguaje. Estas dos operaciones se realizan para eliminar las palabras que aparecen mucho en las oraciones y que no aportan a la decision de discurso de odio.
+Una vez tokenizadas las oraciones, se opto por **eliminar las palabras** de dos o menos letras y las stopwords del lenguaje. Estas dos operaciones se realizan para eliminar las palabras que aparecen mucho en las oraciones y que no aportan a la decision de discurso de odio. Se intento eliminando las palabras que surgieron en el analisis que aparecian con gran frecuencia en ambas clases, pero no se logro obtener una mejora.
 
-Finalmente se aplico **stemming y lemmatization**. En el caso de stemming se encontraron dos librerias diferentes, Porter stemming que se basa en un corpus en ingles y Snowball stemming que es especifica para el español. Sobre lematization se implemento una sola libreria.
+Finalmente se aplico **stemming y lemmatization**. En el caso de stemming se encontraron dos librerias diferentes, Porter stemming que se basa en un corpus en ingles y Snowball stemming que es especifica para el español. Sobre lematization se implemento una sola libreria. En embeddings se explica porque no se uso ninguno de estos metodos.
 
 ### Metodos de aprendizaje automatico utilizados
 
