@@ -23,21 +23,20 @@ def svm_mean_run(Xtr, Xte, Ytr, Yte,  hyperparams):
     svm_clf = svm.SVC( C=hyperparams['C'], gamma=hyperparams['gamma'], kernel=hyperparams['kernel'])
 
     # Train svm
-    print(X_train.shape)
-    print(X_test.shape)
     svm_clf.fit(X_train, Ytr)
     y_pred = svm_clf.predict(X_test)
 
     # Append to statistics
+    print("Restultados obtenidos del entrenamiento:")
     print_stat(Yte, y_pred)
 
     return svm_clf
 
 def print_stat(x, y):
-    print("Accuracy {}".format(metrics.accuracy_score(x, y)))
-    print("Precision {}".format(metrics.precision_score(x, y)))
-    print("Recall {}".format(metrics.recall_score(x, y)))
-    print("F1 {}".format(metrics.f1_score(x, y)))
+    print("\tAccuracy {}".format(metrics.accuracy_score(x, y)))
+    print("\tPrecision {}".format(metrics.precision_score(x, y)))
+    print("\tRecall {}".format(metrics.recall_score(x, y)))
+    print("\tF1 {}".format(metrics.f1_score(x, y)))
 
 
 if __name__ == "__main__":
@@ -59,7 +58,7 @@ if __name__ == "__main__":
         # utils.stemming_Snowball,
         # utils.spacy_lemma,
     ]
-    print("Aplicando preprocesamiento a datos de entrenamiento")
+    print("Aplicando preprocesamiento a datos de entrenamiento:")
     utils.data_apply(data, procesing_pipe)
 
     # === Split data ===
@@ -73,24 +72,26 @@ if __name__ == "__main__":
 
     # == SVM ==
     hyperparams = {'C': 100, 'gamma': 0.1, 'kernel': 'rbf'}
+    print("Entrenando SVM con parametros {}".format(hyperparams))
     svm = svm_mean_run(X_tr, X_te, y_train, y_test,  hyperparams)
 
     if len(sys.argv) > 1:
         for arg in sys.argv[1:]:
+            print("\nGenerando predicciones de {}".format(arg))
             full_path = os.path.abspath(arg)
             path, fl_name = os.path.split(full_path)
 
             new_data = utils.simple_data_load(full_path)
-            utils.data_apply(new_data, procesing_pipe)
+            utils.data_apply(new_data, procesing_pipe, False)
             X = utils.intersect_embedding_data(embedding, new_data)
             X = data_vector_to_mean(X)
-            print(X.shape)
             y = svm.predict(X)
 
             target_filename = "{}/{}.out".format(path,fl_name[:-4])
-            print(target_filename)
+            print("Escribiendo resultados en {}".format(target_filename))
             with open(target_filename, 'w') as fl:
                 for y_pred in y:
-                    fl.write(str(y_pred)+'\n')
+                    print_value = 1 if (y_pred) else 0 
+                    fl.write(str(print_value)+'\n')
 
 

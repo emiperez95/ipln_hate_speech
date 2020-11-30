@@ -35,12 +35,13 @@ def data_pipeline(text, pipe):
         text = proc(text)
     return text
 
-def data_apply(data, pipe):
+def data_apply(data, pipe, print_res=True):
     for proc in pipe: 
         start = time.time()
         data['text'] = data['text'].apply(lambda text: proc(text))
         end = time.time()
-        print("{}: {:.4f}s".format(proc.__name__,end-start))
+        if print_res:
+          print("\t{}: {:.4f}s".format(proc.__name__,end-start))
 
 
 
