@@ -1,6 +1,6 @@
-#Es Odio
+# Es Odio
 
-##Instalación
+## Instalación
 
 Usar el archivo de requerimientos provisto para instalar los modulos.
 ```bash
@@ -11,7 +11,7 @@ Si llegase a fallar la instalacion, se puede utilizar el archivo requirements_wi
 pip install requirements_wide.txt
 ```
 
-##Uso
+## Uso
 
 La ejecucion del programa se puede realizar mediante python
 ```bash
@@ -25,10 +25,10 @@ python es_odio.py ~/textos1.csv ../../textos2.csv
 Los resultados se escriben en un archivo con el mismo nombre que las entradas y se ubicaran en el mismo directorio.
 En este caso se generarian los archivos ~/textos1.out y ../../textos2.out
 
-##Trabajo realizado
+## Trabajo realizado
 
-###Análisis estadístico
-###Preprocesamiento
+### Análisis estadístico
+### Preprocesamiento
 Para modularizar el preprocesamiento, se decidio definir un conjunto de funciones que se aplican en un pipe de procesamiento. De esta forma es facil de visualizar cuales se aplican y de agregar o sacar en caso de ser necesario.
 
 Para el parsing de texto, se crearon funciones que remueven urls, convierten saltos de lineas a espacios (tratamos cada tweet como oracion), se remueven caracteres especiales (de puntuacion y similares), se remueven caracteres ascii y se hace un strip de espacios redundantes.
@@ -53,4 +53,4 @@ Es por esto que se termino utilizando el embedding implementado originalmente, a
 
 
 
-###Posibles mejoras
+### Posibles mejoras
